@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Todo List Exercise</title>
+    <script src="jquery.js"></script>
+    <script>
+    /*
+    Make a Todo List
+
+    0. Make it so that after entering the task description, in the text field and clicking the "Add Task" button, a new task appears inside the element with the id todo-list.
+    1. the ability to remove tasks (add an x button)
+    2. the ability to check off tasks - strikes them out wo removing (add a checkbox)
+    3. the ability to delete a task
+    4. the ability to edit an existing task
+
+    */
+
+    $(document).ready(function () {
+      $(".edit_box").hide();
+      $(".submit_button").hide();
+
+      $("#add-button").click(function(){
+        var list = document.createElement("LI");
+        $(list).addClass("list_item")
+        var content_text = document.createElement("SPAN");
+        $(content_text).append($("#description").val());
+        list.append(content_text);
+        var checkbox = document.createElement("INPUT");
+        $(checkbox).attr("type", "checkbox");
+        $(checkbox).addClass("checkbox");
+        list.append(checkbox);
+        var edit_button = document.createElement("INPUT");
+        $(edit_button).attr("type", "button");
+        $(edit_button).attr("value", "edit");
+        $(edit_button).addClass("edit_button");
+        list.append(edit_button);
+        var edit_box = document.createElement("INPUT");
+        $(edit_box).attr("type", "text");
+        $(edit_box).addClass("edit_box");
+        list.append(edit_box);
+        $(edit_box).hide();
+        var submit_button = document.createElement("INPUT");
+        $(submit_button).attr("type", "button");
+        $(submit_button).attr("value", "submit");
+        $(submit_button).addClass("submit_button");
+        list.append(submit_button);
+        $(submit_button).hide();
+        $("#todo-list").append(list);
+        $("#description").val("")
+      })
+
+      $("#todo-list").on("click", ".checkbox", function(){
+        $(this).parent().toggleClass("strike-through");
+      })
+
+      $("#todo-list").on("click", ".edit_button", function(){
+        $(this).siblings().show();
+      })
+
+      $("#todo-list").on("click", ".submit_button", function(){
+        var content = $(this).prev().val();
+        $(this).siblings().first().text(content);
+        $(".edit_box").hide();
+        $(".submit_button").hide();
+      })
+
+      var remove = document.createElement("DIV");
+      remove.style.backgroundImage = "url(images/remove.png)";
+      remove.style.backgroundSize = "cover";
+      remove.style.width = "100px";
+      remove.style.height = "100px";
+      $("#wrapper").append(remove);
+
+      $(remove).click(function(){
+        $("#todo-list li").remove();
+      })
+    });
+    </script>
+    <style>
+    .strike-through{
+      text-decoration:line-through;
+    }
+
+    #wrapper {
+      max-width: 480px;
+      margin: auto;
+    }
+
+    #description, #search, #todo-list {
+      font-size: 1.5em;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <input id="description" type="text" name="description">
+      <button id="add-button">Add Task</button>
+      <ul id="todo-list">To do list:
+        <li class="list_item"><span class = "content_text">Feed the dog</span><input type = "checkbox" class="checkbox"><input type = "button" class="edit_button" value="edit"><input type = "text" class="edit_box"><input type = "button" class="submit_button" value="submit"></li>
+        <li class="list_item"><span class = "content_text">Feed the cat</span><input type = "checkbox" class="checkbox"><input type = "button" class="edit_button" value="edit"><input type = "text" class="edit_box"><input type = "button" class="submit_button" value="submit"></li>
+      </ul>
+    </div>
+  </body>
+</html>
